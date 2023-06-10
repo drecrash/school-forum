@@ -1,0 +1,21 @@
+* {
+	box-sizing: border-box;
+}
+
+body {
+	font-family: "Open Sans", Helvetica;
+}
+
+
+.countdown {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+	min-height: 100vh;
+	font-size: 200px;
+}
+
+.para {
+	font-size: 10px;
+}

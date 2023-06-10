@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/login-register.css">
+    <title>Register</title>
+</head>
+
+<body>
+    <div class="register-container">
+        <h1>Register Page</h1>
+        <h2>REMINDER: Do <u><b>NOT</b></u> use a password you use for important sites. Create a unique one</h2>
+
+        <form method="POST" action="">
+            {{ form.hidden_tag() }}
+            {{ form.username }} <br><br>
+            {{ form.password }} <br><br>
+            {{ form.email }} <br><br>
+            {{ form.submit }} <br><br>
+        </form>
+
+        <a href="{{ url_for('login') }}">Already have an account? Log In</a>
+
+        {% for field in form.errors %}
+            {% for error in form.errors[field] %}
+                <div class="alert alert-error">
+                    <strong>Error: </strong> {{error}}
+                </div>
+            {% endfor %}
+        {% endfor %}
+
+
+    </div>
+</body>
+
+</html>

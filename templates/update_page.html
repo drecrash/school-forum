@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/update_page.css">
+    <title>Document</title>
+</head>
+<body>
+    <div class="total-header">
+        <h1>QForums Update Logs</h1>
+
+
+    </div>
+    <div class="update-table">
+        <table>
+            <thead class="header">
+                <tr>
+                    <th>Date</th>
+                    <th>Update</th>
+                </tr>
+            </thead>
+            <tbody class="update-body">
+                {% for i in range(update_dates|length) %}
+                    <tr>
+                        <td>{{ update_dates[i] }}</td>
+                        <td>{{ updates[i] }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    
+</body>
+</html>

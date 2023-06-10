@@ -1,0 +1,41 @@
+* {
+	box-sizing: border-box;
+}
+
+body {
+	font-family: "Open Sans", Helvetica;
+	background-color: #eef2ff;
+}
+
+.total-title{
+	color: #146f33;
+}
+.form {
+    display: inline-block;
+}
+
+.title, .content, .tags{
+	padding-top: 10px;
+}
+
+.title-text, .content-text, .tags-text{
+	background-color: blueviolet;
+	font-size: 15px;
+	padding-top: 2px;
+	padding-bottom: 2px;
+	padding-left: 3px;
+	border: 10px;
+	border-color: black;
+}
+
+.title-text{
+	padding-right: 50px;
+}
+
+.content-text{
+	padding-right: 23px;
+}
+
+.tags-text{
+	padding-right: 45px;
+}

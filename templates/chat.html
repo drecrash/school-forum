@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Update Website</title>
+  </head>
+  <body>
+    <form id="username-form">
+      <label for="username">Enter Username:</label>
+      <input type="text" name="username" id="username">
+      <button type="submit">Set Username</button>
+    </form>
+
+    <hr>
+
+    <form id="message-form">
+      <div id="output"></div>
+      <label for="message">Enter Message:</label>
+      <input type="text" name="message" id="message">
+      <button type="submit">Update Website</button>
+    </form>
+    
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/4.3.2/socket.io.min.js"></script>
+    <script type="text/javascript">
+      var maxMessages = 10;
+      var socket = io.connect('http://' + document.domain + ':' + location.port);
+      socket.on('connect', function() {
+        console.log('WebSocket connected!');
+      });
+
+      var usernameForm = document.getElementById('username-form');
+      usernameForm.onsubmit = function(event) {
+        event.preventDefault();
+        var usernameInput = document.getElementById('username');
+        var username = usernameInput.value;
+        setCookie('username', username);
+        usernameInput.value = '';
+      };
+
+      var messageForm = document.getElementById('message-form');
+      messageForm.onsubmit = function(event) {
+        event.preventDefault();
+        var messageInput = document.getElementById('message');
+        var message = messageInput.value;
+        var username = getCookie('username');
+        socket.emit('message', {'message': message, 'username': username});
+        messageInput.value = '';
+      };
+
+      socket.on('update', function(data) {
+        var output = document.getElementById('output');
+        var messages = output.getElementsByTagName('p');
+        var istgIfThisWorks = 'username'
+        if (messages.length >= maxMessages) {
+          output.removeChild(messages[0]);
+        }
+        setCookie('username', data.username);
+        output.innerHTML += '<p><strong>' + data.username + ':</strong> ' + data.message + '</p>';
+        
+        console.log(data);
+      });
+
+      // Function to get the value of a cookie
+      function getCookie(name) {
+        var cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+          var cookies = document.cookie.split(';');
+          for (var i = 0; i < cookies.length; i++) {
+            var cookie = cookies[i].trim();
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+              cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+              break;
+            }
+          }
+        }
+        return cookieValue;
+      }
+
+      // Function to set the value of a cookie
+      function setCookie(name, value) {
+        var date = new Date();
+        date.setTime(date.getTime() + (24 * 60 * 60 * 1000)); // 1 day
+        var expires = "expires=" + date.toUTCString();
+        document.cookie = name + "=" + encodeURIComponent(value) + ";" + expires + ";path=/";
+      }
+    </script>
+  </body>
+</html>

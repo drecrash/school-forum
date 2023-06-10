@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/create-thread.css">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script> 
+    <title>Register</title>
+</head>
+
+<body>
+    <div class="total-title">
+      <h1>Create Thread</h1>
+    </div>
+
+    <form method="POST" action="" class="form" enctype="multipart/form-data">
+        {{ form.hidden_tag() }}
+        {{ upload_form.hidden_tag() }}
+        {{ form.csrf_token }}
+  
+        
+        <div class="title">
+            <span class="title-text">Title</span>
+            <span class="title-form">{{ form.title }}</span>
+        </div>
+
+        <div class="content">
+            <span class="content-text">Content</span>
+            <span class="content-form">{{ form.content }}</span>
+        </div>      
+
+        <div class="tags">
+          <span class="tags-text">Tags</span>
+          <span class="tags-form">{{ form.tags }}</span>
+        </div>
+    
+        <!-- <span class="tags-text">Tags</span>
+        <form method="POST" action="" class="search" >
+          <input type="text" id="tag-search" name="tag-search" placeholder="Separate with commas">
+        </form>
+     -->
+
+        <form method="POST" action="" enctype="multipart/form-data">
+          <span style="font-size: 10px;">.png and .jpg ONLY</span> <br>
+          <input type="file" name="image"> <br>
+          
+          <input type="submit" value="Post">
+          <!-- for some reason the actual submit button broke -->
+        </form>
+        <br><br>
+        <div class="hidden-button" style="opacity: 0.0;">
+            {{ form.submit }}
+        </div>
+        
+    </form>
+
+
+
+
+
+
+    <script>
+        $(function() {
+          var availableTags = {{ all_tags|tojson|safe }};
+          $("#tag-search").autocomplete({
+            source: function(request, response) {
+              // Split input at last comma and use last element for autocomplete
+              var inputArray = request.term.split(",");
+              var term = inputArray[inputArray.length - 1].trim();
+              var results = $.ui.autocomplete.filter(availableTags, term);
+              response(results.slice(0, 10));
+            },
+            minLength: 1,
+            select: function(event, ui) {
+              // Prevent input field from being cleared
+              event.preventDefault();
+              // Get current input value
+              var value = this.value;
+              // Split input at last comma
+              var inputArray = value.split(",");
+              // Replace last element with selected autocomplete value
+              inputArray[inputArray.length - 1] = ui.item.value;
+              // Join input back together
+              this.value = inputArray.join(",");
+            }
+          });
+        });
+      </script>
+</body>
+
+</html>

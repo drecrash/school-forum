@@ -1,0 +1,22 @@
+* {
+	box-sizing: border-box;
+}
+
+body {
+	font-family: "Open Sans", Helvetica;
+}
+
+
+.start-game{
+	margin: auto;
+	padding-top: 10%;
+	padding-left: 50%;
+
+}
+
+.open-rules{
+	margin: auto;
+	padding-top: 1%;
+	padding-left: 50%;
+
+}

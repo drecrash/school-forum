@@ -1,0 +1,31 @@
+* {
+	box-sizing: border-box;
+}
+
+body {
+	font-family: "Open Sans", Helvetica;
+    background-color: #eef2ff;
+}
+
+.total-header{
+    text-align: center;
+    -webkit-text-stroke-width: 0.2px;
+    -webkit-text-stroke-color: white;
+}
+
+.table, th, td{
+    border: 1px solid black;
+}
+
+.header {
+    background-color: #d5dffd;
+}
+
+.update-table{
+    margin: auto;
+    padding-left: 38%;
+}
+
+.update-body{
+    background-color: white;
+}

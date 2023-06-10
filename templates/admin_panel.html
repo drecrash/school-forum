@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel</title>
+</head>
+<body>
+
+    <div class="update-maker">
+
+        <h1>Create Update</h1>
+        <p>test2</p>
+
+        <form method="POST" action="">
+            {{ update_form.hidden_tag() }}
+            {{ update_form.content }}
+            {{ update_form.submit }}
+        </form>
+        <br>
+        <br>
+
+        <form method="POST" action="">
+            {{ admin_form.hidden_tag() }}
+            {{ admin_form.admin_id }}
+            {{ admin_form.deactivate_id }}
+            {{ admin_form.submit }}
+        </form>
+
+    </div>
+
+
+    
+</body>
+</html>

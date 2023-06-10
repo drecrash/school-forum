@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/thread_home.css">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">1
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script> 
+</head>
+<body>
+
+
+
+    <div class="header">
+      <div class="title-header">
+        <h1 class="thread-page" style="color:#ae090c;"><b>/thread-page/ - All the Threads</b> </h1> 
+        <span class="logout"><a href="{{ url_for('user_logout') }}">Logout</a></span>
+      </div>
+
+      {% if page %}
+      <h2 class="create-thread" >[<a href="{{ url_for('createthread', page=page) }}" style="color:#00004b; text-decoration: none;">Create Thread</a>]</h2><br><br><br><br><br><br>
+      
+      <div class="update-container">
+        <div class="updates">
+          {% set max_update = namespace(value=2) %}
+          {% set num_update = namespace(value=0) %}
+
+          
+          {% for update in all_updates %}
+            {% if num_update.value < max_update.value %}
+              {% set num_update.value = num_update.value + 1 %}
+              <p>{{ update.date.strftime('%Y-%m-%d') }} {{ update.content }}</p>
+            {% endif %}
+          {% endfor %}
+          <p class = "update-show-all">[<a href="{{ url_for('update_log') }}" style="color:#00004b; text-decoration: none;">Read All</a>]</p>
+        {% endif %}
+        </div>
+      </div>
+
+      <div class="tag-searchbar">
+        <h1>Tag Searcher (separate tags with commas)</h1>
+
+        <form method="POST" class="search">
+          <input type="text" id="tag-search" name="tag-search">
+          <button type="submit">Search</button>
+        </form>
+
+      </div>
+
+    </div>
+
+
+
+    {% block content %}
+      
+
+
+
+      <ul>
+        {% for thread in all_threads %}
+
+          {% if thread.image %}
+
+            <div class="thread">
+              <div class="thread-image">
+                <img src="/{{ thread.image }}" class="image"/>
+              </div>
+                <div class="title">
+                  <h2><a href="{{ url_for('view_thread', thread_id=thread.id) }}" style="color:#00004b; text-decoration: none;">&nbsp;{{ thread.title }}</a> <span style="color:#146f33;">{{ thread.author }}</span> {{ thread.date.strftime('%m/%d/%Y %I:%M %p') }}</h2>
+                </div>
+
+                <div class="thread-content">
+                
+                  <p>{{ thread.content|wordwrap(100, wrapstring='<br>')|safe }}</p>
+
+                </div>
+
+                <div class="comments-wrapper" style="display: inline-block; width: 500px;">
+                  {% set max_comments = namespace(value=3) %}
+                  {% set num_comments = namespace(value=0) %}
+                  {% for comment in all_comments %}
+                    {% if comment.thread_id == thread.id %}
+
+                      {% set num_comments.value = num_comments.value + 1 %}
+                      {% if num_comments.value > max_comments.value %}
+                        <br>
+                        <a href="{{ url_for('view_thread', thread_id=thread.id) }}" style="color:#00004b;">Read All</a>
+                        {% break %}
+                      {% else %}
+
+
+                      <div class="comment">
+                        <p> <span style="color:#146f33;"><b>&nbsp;{{ comment.author }}</b></span> {{ comment.date.strftime('%m/%d/%Y %I:%M %p') }}</p>
+                        <p>&nbsp;{{ comment.content|wordwrap(73, wrapstring='<br>')|safe }}</p>
+                        <br>
+
+                      </div>
+                      {% endif %}
+                    {% endif %}
+                  {% endfor %}
+                </div>
+
+                <div class="comment-box">
+                  <div class="modal fade" id="comment-modal-{{ thread.id }}" tabindex="-1" role="dialog" aria-labelledby="comment-modal-{{ thread.id }}-label" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="comment-modal-{{ thread.id }}-label">Add Comment to <span style="color:#00004b;"><u>{{ thread.title }}</u></span></h5>
+                        </div>
+                        <div class="modal-body">
+                          <form method="post" action="{{ url_for('add_comment', thread_id=thread.id, page_num=page) }}">
+                            {{ comment_form.csrf_token }}
+                            <div class="form-group">
+                              <input type="hidden" name="thread_id" value="{{ thread.id }}">
+                              <input type="hidden" name="page_num" value="{{ page }}">
+                              <textarea class="form-control" id="content" name="content" rows="3" required></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Comment</button>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+
+            </div>
+
+          {% else %}
+
+            <div class="thread-noimg">
+                <div class="title">
+                  <h2><a href="{{ url_for('view_thread', thread_id=thread.id) }}" style="color:#00004b; text-decoration: none;">&nbsp;{{ thread.title }}</a> <span style="color:#146f33;">{{ thread.author }}</span> {{ thread.date.strftime('%m/%d/%Y %I:%M %p') }}</h2>
+                </div>
+                
+                <p>{{ thread.content|wordwrap(100, wrapstring='<br>')|safe }}</p>
+
+                <div class="comments-wrapper" style="display: inline-block; width: 500px;">
+                  {% set max_comments = namespace(value=3) %}
+                  {% set num_comments = namespace(value=0) %}
+                  {% for comment in all_comments %}
+                    {% if comment.thread_id == thread.id %}
+
+                      {% set num_comments.value = num_comments.value + 1 %}
+                      {% if num_comments.value > max_comments.value %}
+                      
+                        <br>
+                        <a href="{{ url_for('view_thread', thread_id=thread.id) }}" style="color:#00004b;">Read All</a>
+                        {% break %}
+                        
+                      {% else %}
+
+
+                      <div class="comment">
+                        <p> <span style="color:#146f33;"><b>&nbsp;{{ comment.author }}</b></span> {{ comment.date.strftime('%m/%d/%Y %I:%M %p') }}</p>
+                        <p>&nbsp;{{ comment.content|wordwrap(73, wrapstring='<br>')|safe }}</p>
+                        <br>
+
+                      </div>
+                      {% endif %}
+                    {% endif %}
+                  {% endfor %}
+                </div>
+
+
+
+                <div class="comment-box">
+                  <div class="modal fade" id="comment-modal-{{ thread.id }}" tabindex="-1" role="dialog" aria-labelledby="comment-modal-{{ thread.id }}-label" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="comment-modal-{{ thread.id }}-label">Add Comment to <span style="color:#00004b;"><u>{{ thread.title }}</u></span></h5>
+                        </div>
+                        <div class="modal-body">
+                          <form method="post" action="{{ url_for('add_comment', thread_id=thread.id, page_num=page) }}">
+                            {{ comment_form.csrf_token }}
+                            <div class="form-group">
+                              <input type="hidden" name="thread_id" value="{{ thread.id }}">
+                              <input type="hidden" name="page_num" value="{{ page }}">
+                              <textarea class="form-control" id="content" name="content" rows="3" required></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Comment</button>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+
+            </div>
+
+          {% endif %}
+
+
+            
+      {% endfor %}
+      </ul>
+
+      <div class="page-wrapper" style="display: inline-block; width: 1000px;">
+        <ul class="pagination">
+
+          {% if request.args.get('search_args') %}
+
+            {% for i in range(1, num_pages+1) %}
+
+              <div class="page-item {% if i == page %}active{% endif %}">
+                <a class="page-link" href="{{ url_for('threadpage', page=i, search_args=request.args.get('search_args')) }}" style = "text-decoration: none;">[{{ i }}]</a>
+              </div>
+
+            {% endfor %}
+            
+            {% if page < num_pages %}
+              <a class="page-link" href="{{ url_for('threadpage', page=page+1, search_args=request.args.get('search_args')) }}">Next</a>
+            {% endif %}
+
+            {% if page > 1 %}
+
+              <a class="page-link" href="{{ url_for('threadpage', page=page-1, search_args=request.args.get('search_args')) }}">Previous</a>
+            
+            {% endif %}
+          
+            {% else %}
+
+              {% for i in range(1, num_pages+1) %}
+
+                <div class="page-item {% if i == page %}active{% endif %}">
+                  <a class="page-link" href="{{ url_for('threadpage', page=i) }}" style = "text-decoration: none;">[{{ i }}]</a>
+                </div>
+
+              {% endfor %}
+              {% if page < num_pages %}
+                <a class="page-link" href="{{ url_for('threadpage', page=page+1) }}">Next</a>
+              {% endif %}
+
+              {% if page > 1 %}
+
+                <a class="page-link" href="{{ url_for('threadpage', page=page-1) }}">Previous</a>
+              
+              {% endif %}         
+              
+            {% endif %}
+
+        </ul>
+      </div>
+
+    {% endblock %}  
+
+
+    <script>
+      $(function() {
+        var availableTags = {{ all_tags|tojson|safe }};
+        $("#tag-search").autocomplete({
+          source: function(request, response) {
+            var inputArray = request.term.split(",");
+            var term = inputArray.length > 1 ? inputArray[1].trim() : inputArray[0].trim();
+            var results = $.ui.autocomplete.filter(availableTags, term);
+            response(results.slice(0, 10));
+          },
+          minLength: 1,
+          select: function(event, ui) {
+            event.preventDefault();
+            var value = this.value;
+            var inputArray = value.split(",");
+            inputArray[inputArray.length - 1] = ui.item.value;
+            this.value = inputArray.join(",");
+          }
+        });
+    
+        $("#tag-search").keydown(function(event) {
+          if (event.keyCode === 13) {
+            event.preventDefault();
+            $(this).closest("form").submit();
+          }
+        });
+      });
+    </script>
+    
+    
+</body>
+</html>

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/thread_home.css">
+</head>
+<body>
+  <div class="header">
+    <h1 class="thread-page" style="color:#ae090c;"><b>/thread-page/ - All the Threads</b></h1>
+    {% if page %}
+    <h2 class="create-thread" >[<a href="{{ url_for('createthread', page=page) }}" style="color:#00004b; text-decoration: none;">Create Thread</a>]</h2><br><br><br><br><br><br>
+    
+    <div class="update-container">
+      <div class="updates">
+        {% set max_update = namespace(value=2) %}
+        {% set num_update = namespace(value=0) %}
+
+        
+        {% for update in all_updates %}
+          {% if num_update.value < max_update.value %}
+            {% set num_update.value = num_update.value + 1 %}
+            <p>{{ update.date.strftime('%Y-%m-%d') }} {{ update.content }}</p>
+          {% endif %}
+        {% endfor %}
+        <p class = "update-show-all">[<a href="{{ url_for('update_log') }}" style="color:#00004b; text-decoration: none;">Read All</a>]</p>
+      {% endif %}
+      </div>
+    </div>
+  </div>
+
+
+  <div class="thread-main">
+
+    <div class="thread-image">
+      {% if thread.image %}
+      <img src="/{{ thread.image }}" class="image"/>
+      {% endif %}
+    </div>
+
+    <div class="title-wrapper">
+
+      <div class="title">
+          <a href="{{ url_for('view_thread', thread_id=thread.id) }}" style="color:#00004b; text-decoration: none; font-size: 20px;"><b>{{ thread.title }}</b></a> <span style="color:#146f33; font-size: 15px;"><b>{{ thread.author }}</b></span> {{ thread.date.strftime('%m/%d/%Y %I:%M %p') }} <span style="color:rgb(46, 46, 46); font-size: 10px;">&nbsp;&nbsp;&nbsp;&nbsp;[{{ tags }}]</span>
+      </div>
+
+
+
+    </div>
+
+    <p>{{ thread.content|wordwrap(100, wrapstring='<br>')|safe }}</p>
+    
+    
+    <div class="comments-wrapper" style="display: inline-block; width: 500px;">
+      {% if admin %}
+        {% for comment in all_comments %}
+          {% if comment.thread_id == thread.id %}
+            <div class="comment">
+              <p> <span style="color:#146f33;"><b>&nbsp;{{ comment.author }}</b></span> {{ comment.date.strftime('%m/%d/%Y %I:%M %p') }} </p>
+              <p>&nbsp;{{ comment.content|wordwrap(73, wrapstring='<br>')|safe }}</p>
+              <br>
+              <!-- {{ user_id }} - {{ email }} -->
+
+            </div>
+          {% endif %}
+        {% endfor %}
+
+      {% else %}
+        {% for comment in all_comments %}
+          {% if comment.thread_id == thread.id %}
+            <div class="comment">
+              <p> <span style="color:#146f33;"><b>&nbsp;{{ comment.author }}</b></span> {{ comment.date.strftime('%m/%d/%Y %I:%M %p') }}</p>
+              <p>&nbsp;{{ comment.content|wordwrap(73, wrapstring='<br>')|safe }}</p>
+              <br>
+
+            </div>
+          {% endif %}
+        {% endfor %}
+
+      {% endif %}
+
+    </div>
+
+
+    <div class="modal fade" id="comment-modal-{{ thread.id }}" tabindex="-1" role="dialog" aria-labelledby="comment-modal-{{ thread.id }}-label" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="comment-modal-{{ thread.id }}-label">Add Comment to <span style="color:#00004b;"><u>{{ thread.title }}</u></span></h5>
+          </div>
+          <div class="modal-body">
+            <form method="post" action="{{ url_for('add_comment', thread_id=thread.id, page_num=page) }}">
+              {{ comment_form.csrf_token }}
+              <div class="form-group">
+                <input type="hidden" name="thread_id" value="{{ thread.id }}">
+                <input type="hidden" name="page_num" value="{{ page }}">
+                <textarea class="form-control" id="content" name="content" rows="3" required></textarea>
+              </div>
+              <button type="submit" class="btn btn-primary">Comment</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {% if admin %}
+
+      <div class="delete-post">
+        <a href="{{ url_for('delete_post', thread_id=thread.id) }}">Delete</a> <br>
+        <span>{{ user_id }}</span>
+        <span>{{ email }}</span>
+      </div>
+
+    {% endif %}
+
+  </div>
+</body>  
+</html>

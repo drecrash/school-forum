@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/error-page.css">
+    <title>Error</title>
+</head>
+<body>
+
+    {% if error == '429' %}
+        <h1>429 Too Many Requests</h1>
+        <p>You've exceeded your rate limit</p>
+        <p>Limits:</p>
+        <u>
+            <li>10 requests to create a thread per hour</li>
+            <li>50 comments per hour</li>
+        </u>
+        <br>
+    {% elif error == '404' %}
+        <h1>404 Does Not Exist</h1>
+        <p>go away</p>
+    {% endif %}
+    <img src={{ image }} alt="error image" width="500" height="600">
+</body>
+</html>

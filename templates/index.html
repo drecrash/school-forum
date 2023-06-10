@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="static/index.css">
+    <title>Home</title>
+</head>
+<body>
+    <div class = "main">
+
+        <!-- <form method="POST" action="/">
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required><br><br>
+        <input type="submit" value="Login">
+        </form> -->
+
+
+        <div class="countdown">
+            <p id="demo"></p> <br>
+
+            <script>
+
+            var countDownDate = new Date("April 24, 2023 13:00:00").getTime();
+
+            var x = setInterval(function() {
+
+            var now = new Date().getTime();
+
+            var distance = countDownDate - now;
+
+            var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById("demo").innerHTML = days + "d " + hours + "h "
+            + minutes + "m " + seconds + "s ";
+
+            if (distance < 0) {
+                clearInterval(x);
+                document.getElementById("demo").innerHTML = "EXPIRED";
+            }
+            }, 1000);
+            </script>
+
+            <div class="para">
+                <p>t̶h̶i̶s̶ ̶c̶o̶u̶n̶t̶d̶o̶w̶n̶ ̶m̶e̶a̶n̶s̶ ̶l̶i̶t̶e̶r̶a̶l̶l̶y̶ ̶n̶o̶t̶h̶i̶n̶g̶ ̶l̶m̶a̶o̶</p>
+            </div>
+
+        </div>
+
+
+    </div>
+</body>
+</html>

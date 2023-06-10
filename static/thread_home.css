@@ -1,0 +1,164 @@
+* {
+	box-sizing: border-box;
+}
+
+body {
+	font-family: arial,helvetica,sans-serif; font-size: 10pt;
+    background-color:  #E6F2FF;
+}
+
+
+
+
+/* bg color: #eef2ff - #E6F2FF*/
+/* title color: #00004b */
+/* user color: #146f33 */
+/* line color: #b7c5d9 */
+/* comment color: #d6daf0 - #d7fcd7 */
+/* title red: #ae090c */
+/* create thread color: #302f61 */
+
+
+.header .title-header{
+    border-bottom: 1px solid #b7c5d9 ;
+}
+
+.header .thread-page {
+    text-align: center;
+    
+    
+}
+
+.header .logout{
+    float: right;
+    
+}
+
+.header .create-thread {
+    text-align: center;
+}
+
+.update-container{
+    width: 480px;
+    margin-top: -100px;
+    position: relative;
+    padding-left: 4%;
+    margin: 0 auto;
+}
+
+.updates {
+    position: absolute;
+    border-top: 1px solid #b7c5d9 ;
+    text-align: center;
+    bottom: 50%;
+    height: 70px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #b7c5d9 ;
+}
+
+.header .update-show-all {
+    padding-top: 10px;
+}
+
+
+
+
+.thread {
+    margin-top: 40px;
+    margin-left: -3%;
+    background-color:  #E6FFE6;
+    border-top: 1px solid #b7c5d9 ;
+    border: 1px solid #b7c5d9;
+    border-bottom: 1px solid #b7c5d9 ;
+}
+
+.thread .thread-content{
+    margin-left: 50px;
+}
+
+.thread-main {
+    margin-top: 40px;
+    background-color:  #E6FFE6;
+    border-top: 1px solid #b7c5d9 ;
+    border: 1px solid #b7c5d9;
+    border-bottom: 1px solid #b7c5d9 ;
+}
+
+.thread-noimg{
+    padding-left: 3%;
+    margin-top: 40px;
+    margin-left: -3%;
+    background-color:  #E6FFE6;
+    border-top: 1px solid #b7c5d9 ;
+    border: 1px solid #b7c5d9;
+    border-bottom: 1px solid #b7c5d9 ;
+}
+.thread-image{
+    float: left;
+    margin-right: 10px;
+    margin-left: 1.5%;
+    margin-top: 10px;
+}
+.thread-image .image{
+    height: auto; 
+    width: auto; 
+    max-width: 100px; 
+    max-height: 100px;
+}
+
+
+.thread .title{
+    font-size: 10px;
+}
+
+.delete-post{
+    padding-top: 10px;
+}
+
+.thread-noimg .title{
+    font-size: 10px;
+}
+
+
+.comment{
+    /* display: inline-block; */
+    border: 0.1px solid #b7c5d9;
+    margin-top: 10px;
+    margin-left: 10px;
+    background-color: #d7fcd7;
+
+}
+
+
+.thread .comment-box{
+    margin-left: 1.5%;
+}
+
+
+
+.hidden {
+    display: none;
+}
+
+.pagination {
+    display: flex;
+    background-color: #d6daf0;
+    height: 30px;
+}
+
+.page-link {
+    margin-right: 5px;
+    margin-top: 10px;
+}
+
+
+.tag-searchbar h1{
+    font-size: 15px;
+    margin-left: 1%;
+    color: #626569;
+}
+.search {
+    display: inline-block;
+    width: 100%;
+    margin-left: 1%;
+}
